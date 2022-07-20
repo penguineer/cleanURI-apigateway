@@ -1,0 +1,12 @@
+micronaut:
+  application:
+    name: cleanURI-apigateway
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /oas3/**
+netty:
+  default:
+    allocator:
+      max-order: 3
