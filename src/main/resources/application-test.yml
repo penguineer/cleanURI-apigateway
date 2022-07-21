@@ -19,3 +19,4 @@ gateway:
   cache-timeout: 30s
   cache-evict: 300s
   amqp-result-queue: amqp-result
+  amqp-task-queue: amqp-task
