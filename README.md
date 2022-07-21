@@ -7,6 +7,7 @@
 
 Configuration is done using environment variables:
 
+* `PORT`: Port for the HTTP endpoint (default `8080`)
 * `AMQP_HOST`: RabbitMQ host
 * `AMQP_USER`: RabbitMQ user
 * `AMQP_PASS`: RabbitMQ password
