@@ -2,6 +2,14 @@
 
 > This is the API gateway for the cleanURI service.
 
+## Configuration
+
+Configuration is done using environment variables:
+
+* `AMQP_HOST`: RabbitMQ host
+* `AMQP_USER`: RabbitMQ user
+* `AMQP_PASS`: RabbitMQ password
+* `AMQP_VHOST`: RabbitMQ virtual host, defaults to '/'
 
 ## Deployment
 
@@ -13,10 +21,12 @@ Version numbers are determined with [jgitver](https://jgitver.github.io/).
 Please check your [IDE settings](https://jgitver.github.io/#_ides_usage) to avoid problems, as there are still some unresolved issues.
 If you encounter a project version `0` there is an issue with the jgitver generator.
 
-The application can be run locally with
+For local execution the configuration can be provided in a `.env` file and made available using `dotenv`:
 ```bash
-./mvnw mn:run
+dotenv ./mvnw mn:run
 ```
+
+Note that `.env` is part of the `.gitignore` and can be safely stored in the local working copy.
 
 ## Build
 
