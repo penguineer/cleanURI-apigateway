@@ -2,6 +2,7 @@
 
 > This is the API gateway for the cleanURI service.
 
+
 ## Configuration
 
 Configuration is done using environment variables:
@@ -10,6 +11,9 @@ Configuration is done using environment variables:
 * `AMQP_USER`: RabbitMQ user
 * `AMQP_PASS`: RabbitMQ password
 * `AMQP_VHOST`: RabbitMQ virtual host, defaults to '/'
+* `GATEWAY_RESULT_QUEUE`: RabbitMQ where results will be posted
+* `GATEWAY_CACHE_TIMEOUT`: Timeout for waiting on backend results (default: 30s)
+* `GATEWAY_CACHE_EVICT`: Cache eviction interval (default: 300s)
 
 ## Deployment
 

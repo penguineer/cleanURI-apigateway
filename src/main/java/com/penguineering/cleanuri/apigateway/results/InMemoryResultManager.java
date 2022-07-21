@@ -68,7 +68,7 @@ public class InMemoryResultManager<T> implements ResultManager<T> {
                 future -> future.completeExceptionally(ex));
     }
 
-    @Scheduled(fixedDelay = "${cleanuri.results.cache-cleanup}")
+    @Scheduled(fixedDelay = "${gateway.cache-evict:300s}")
     void cleanupCache() {
         final long now = clock.millis();
 
