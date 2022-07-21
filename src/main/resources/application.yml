@@ -22,3 +22,4 @@ gateway:
   cache-timeout: ${GATEWAY_CACHE_TIMEOUT:30s}
   cache-evict: ${GATEWAY_CACHE_EVICT:300s}
   amqp-result-queue: ${GATEWAY_RESULT_QUEUE}
+  amqp-task-queue: ${GATEWAY_TASK_QUEUE}
