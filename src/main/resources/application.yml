@@ -11,13 +11,14 @@ netty:
     allocator:
       max-order: 3
 
-cleanuri:
-  results:
-      cache-cleanup: "300s"
-
 # https://micronaut-projects.github.io/micronaut-rabbitmq/latest/guide/#config
 rabbitmq:
   host: ${AMQP_HOST}
   username: ${AMQP_USER:}
   password: ${AMQP_PASS}
   virtual-host: ${AMQP_VHOST:/}
+
+gateway:
+  cache-timeout: ${GATEWAY_CACHE_TIMEOUT:30s}
+  cache-evict: ${GATEWAY_CACHE_EVICT:300s}
+  amqp-result-queue: ${GATEWAY_RESULT_QUEUE}
