@@ -95,7 +95,7 @@ public class InMemoryResultManager<T> implements ResultManager<T> {
         expired.entrySet().stream()
                 .filter(e -> !e.getValue().isDone())
                 .forEach(e -> e.getValue().completeExceptionally(
-                        new ResultTimeoutException(e.getKey(), "Timeout on cache cleanup!")));
+                        new ResultTimeoutException(e.getKey(), "Timeout while waiting for backend response!")));
     }
 
     void logExpired(@NotNull final Collection<String> correlationIds) {

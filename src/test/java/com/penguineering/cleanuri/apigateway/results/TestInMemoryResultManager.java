@@ -148,7 +148,7 @@ public class TestInMemoryResultManager {
         );
         assertNotNull(e.getCause());
         assertTrue(e.getCause() instanceof ResultTimeoutException);
-        assertEquals("Timeout on cache cleanup!", e.getCause().getMessage());
+        assertEquals("Timeout while waiting for backend response!", e.getCause().getMessage());
         assertEquals(Optional.of(res2.getCorrelationId()),
                 ((ResultTimeoutException)e.getCause()).getCorrelationId());
 
