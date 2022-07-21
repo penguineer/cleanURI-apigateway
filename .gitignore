@@ -1,3 +1,6 @@
+# Runtime
+.env
+
 # Maven ignores
 target/
 pom.xml.tag
