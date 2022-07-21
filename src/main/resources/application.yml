@@ -14,3 +14,10 @@ netty:
 cleanuri:
   results:
       cache-cleanup: "300s"
+
+# https://micronaut-projects.github.io/micronaut-rabbitmq/latest/guide/#config
+rabbitmq:
+  host: ${AMQP_HOST}
+  username: ${AMQP_USER:}
+  password: ${AMQP_PASS}
+  virtual-host: ${AMQP_VHOST:/}
