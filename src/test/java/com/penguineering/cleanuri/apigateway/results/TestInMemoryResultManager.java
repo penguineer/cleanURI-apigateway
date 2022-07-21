@@ -8,6 +8,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -148,6 +149,8 @@ public class TestInMemoryResultManager {
         assertNotNull(e.getCause());
         assertTrue(e.getCause() instanceof ResultTimeoutException);
         assertEquals("Timeout on cache cleanup!", e.getCause().getMessage());
+        assertEquals(Optional.of(res2.getCorrelationId()),
+                ((ResultTimeoutException)e.getCause()).getCorrelationId());
 
         // emitting another result should not lead to a change,
         // i.e. the expected result has been deleted

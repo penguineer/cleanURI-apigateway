@@ -73,7 +73,7 @@ public class InMemoryResultManager<T> implements ResultManager<T> {
         final long now = clock.millis();
 
         final Map<String, CompletableFuture<T>> expired = getAndRemoveExpired(now);
-        timeoutUncompleted(expired.values());
+        timeoutUncompleted(expired);
         logExpired(expired.keySet());
     }
 
@@ -91,11 +91,11 @@ public class InMemoryResultManager<T> implements ResultManager<T> {
         }
     }
 
-    void timeoutUncompleted(@NotNull final Collection<CompletableFuture<T>> fc) {
-        fc.stream()
-                .filter(v -> !v.isDone())
-                .forEach(v -> v.completeExceptionally(
-                        new ResultTimeoutException("Timeout on cache cleanup!")));
+    void timeoutUncompleted(@NotNull final Map<String, CompletableFuture<T>> expired) {
+        expired.entrySet().stream()
+                .filter(e -> !e.getValue().isDone())
+                .forEach(e -> e.getValue().completeExceptionally(
+                        new ResultTimeoutException(e.getKey(), "Timeout on cache cleanup!")));
     }
 
     void logExpired(@NotNull final Collection<String> correlationIds) {
