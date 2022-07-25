@@ -113,6 +113,12 @@
           <version>1.0</version>
           <scope>compile</scope>
       </dependency>
+    <dependency>
+      <groupId>com.penguineering.cleanuri</groupId>
+      <artifactId>common</artifactId>
+      <version>0.1.0</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>
