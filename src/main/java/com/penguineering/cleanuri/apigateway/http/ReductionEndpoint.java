@@ -1,9 +1,12 @@
 package com.penguineering.cleanuri.apigateway.http;
 
-import com.penguineering.cleanuri.apigateway.amqp.ReductionTaskEmitter;
-import com.penguineering.cleanuri.apigateway.model.ReductionTask;
 import com.penguineering.cleanuri.apigateway.results.ExpectedResult;
 import com.penguineering.cleanuri.apigateway.results.ResultManager;
+import com.penguineering.cleanuri.common.amqp.ExtractionTaskEmitter;
+import com.penguineering.cleanuri.common.message.ExtractionRequest;
+import com.penguineering.cleanuri.common.message.ExtractionTask;
+import com.penguineering.cleanuri.common.message.MetaData;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
@@ -19,38 +22,45 @@ import java.util.concurrent.CompletableFuture;
 
 @Controller("/reduce")
 public class ReductionEndpoint {
-    @Inject
-    ResultManager<String> resultMgr;
-
-    @Inject
-    ReductionTaskEmitter emitter;
-
     @Value("${gateway.cache-timeout:60s}")
     Duration timeout;
+
+    @Inject
+    ResultManager<ExtractionTask> resultMgr;
+
+    @Property(name = "gateway.amqp-task-queue")
+    String taskQueue;
+
+    @Property(name = "gateway.amqp-result-queue")
+    String resultQueue;
+
+    @Inject
+    ExtractionTaskEmitter emitter;
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
     @ApiResponse(responseCode = "200", description = "Successful")
     @ApiResponse(responseCode = "400", description = "Invalid call arguments")
     @ApiResponse(responseCode = "504", description = "Timeout waiting for backend response")
-    public CompletableFuture<String> reduce(
+    public CompletableFuture<ExtractionTask> reduce(
             final URI uri,
             final @Nullable String meta
     ) {
-        final ReductionTask.Builder taskBuilder = ReductionTask.Builder.withURI(uri);
+        final ExtractionRequest.Builder requestBuilder = ExtractionRequest.Builder.withURI(uri);
 
         if (meta != null) {
-            if (meta.contains("T"))
-                taskBuilder.addMeta(ReductionTask.Meta.TITLE);
-            if (meta.contains("P"))
-                taskBuilder.addMeta(ReductionTask.Meta.PRICE);
+            if (meta.contains("I")) {
+                requestBuilder.addField(MetaData.Fields.ID);
+            }
+            if (meta.contains("T")) {
+                requestBuilder.addField(MetaData.Fields.TITLE);
+            }
         }
 
-        final ReductionTask task = taskBuilder.instance();
+        final ExtractionTask task = ExtractionTask.Builder.withRequest(requestBuilder.instance()).instance();
+        final ExpectedResult<ExtractionTask> res = resultMgr.registerExpectation(timeout.toMillis());
 
-        ExpectedResult<String> res = resultMgr.registerExpectation(timeout.toMillis());
-
-        emitter.send(res.getCorrelationId(), task);
+        emitter.send(taskQueue, res.getCorrelationId(), resultQueue, task);
 
         return res.getCompletableFuture();
     }
