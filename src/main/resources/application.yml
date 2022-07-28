@@ -3,6 +3,8 @@ micronaut:
     name: cleanURI-apigateway
   server:
     port: ${PORT:8080}
+    cors:
+      enabled: true
   router:
     static-resources:
       swagger:
