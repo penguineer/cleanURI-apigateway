@@ -12,7 +12,8 @@ Configuration is done using environment variables:
 * `AMQP_USER`: RabbitMQ user
 * `AMQP_PASS`: RabbitMQ password
 * `AMQP_VHOST`: RabbitMQ virtual host, defaults to '/'
-* `GATEWAY_RESULT_QUEUE`: RabbitMQ where results will be posted
+* `GATEWAY_RESULT_QUEUE`: AMQP queue (inbound) to receive results
+* `GATEWAY_TASK_RK`: AMQP routing key (outbound) for requests to the [Canonizer](https://github.com/penguineer/cleanURI-canonizer)
 * `GATEWAY_CACHE_TIMEOUT`: Timeout for waiting on backend results (default: 30s)
 * `GATEWAY_CACHE_EVICT`: Cache eviction interval (default: 300s)
 

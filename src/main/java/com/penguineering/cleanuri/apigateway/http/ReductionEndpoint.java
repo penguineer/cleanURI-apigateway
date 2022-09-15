@@ -28,8 +28,8 @@ public class ReductionEndpoint {
     @Inject
     ResultManager<ExtractionTask> resultMgr;
 
-    @Property(name = "gateway.amqp-task-queue")
-    String taskQueue;
+    @Property(name = "gateway.amqp-task-rk")
+    String taskRK;
 
     @Property(name = "gateway.amqp-result-queue")
     String resultQueue;
@@ -60,7 +60,7 @@ public class ReductionEndpoint {
         final ExtractionTask task = ExtractionTask.Builder.withRequest(requestBuilder.instance()).instance();
         final ExpectedResult<ExtractionTask> res = resultMgr.registerExpectation(timeout.toMillis());
 
-        emitter.send(taskQueue, res.getCorrelationId(), resultQueue, task);
+        emitter.send(taskRK, res.getCorrelationId(), resultQueue, task);
 
         return res.getCompletableFuture();
     }
