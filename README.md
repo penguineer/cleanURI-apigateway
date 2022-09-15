@@ -1,6 +1,6 @@
 # cleanURI - API Gateway
 
-> This is the API gateway for the cleanURI service.
+> This is the API gateway for the [cleanURI](https://github.com/penguineer/cleanURI) service.
 
 
 ## Configuration
