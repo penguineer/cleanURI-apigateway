@@ -27,7 +27,7 @@ With the configuration stored in a file `.env`, the service can be run as follow
 docker run --rm \
            -p 8080:8080 \
            --env-file .env \
-           mrtux/cleanrui-apigateway
+           mrtux/cleanuri-apigateway
 ```
 
 The service does not store any state and therefore needs no mount points or other persistence.
