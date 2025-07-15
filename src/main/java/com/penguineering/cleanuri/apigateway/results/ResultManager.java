@@ -1,8 +1,8 @@
 package com.penguineering.cleanuri.apigateway.results;
 
 import io.micronaut.core.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>Hold a list of result expectations and remove stale entries on timeout

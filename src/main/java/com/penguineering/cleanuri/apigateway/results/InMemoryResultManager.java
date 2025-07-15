@@ -2,11 +2,11 @@ package com.penguineering.cleanuri.apigateway.results;
 
 import io.micronaut.scheduling.annotation.Scheduled;
 import jakarta.inject.Singleton;
+import jakarta.validation.constraints.NotNull;
 import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.validation.constraints.NotNull;
 import java.time.Clock;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
