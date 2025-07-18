@@ -15,6 +15,8 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.net.URI;
 import java.time.Duration;
@@ -60,8 +62,12 @@ public class ReductionEndpoint {
         final ExtractionTask task = ExtractionTask.Builder.withRequest(requestBuilder.instance()).instance();
         final ExpectedResult<ExtractionTask> res = resultMgr.registerExpectation(timeout.toMillis());
 
-        emitter.send(taskRK, res.getCorrelationId(), resultQueue, task);
+        Mono.fromRunnable(
+                        () -> emitter.send(taskRK, res.getCorrelationId(), resultQueue, task))
+                .subscribeOn(Schedulers.boundedElastic())
+                .subscribe();
 
         return res.getCompletableFuture();
+
     }
 }

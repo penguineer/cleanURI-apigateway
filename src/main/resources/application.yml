@@ -10,6 +10,7 @@ micronaut:
       swagger:
         paths: classpath:META-INF/swagger
         mapping: /oas3/**
+
 netty:
   default:
     allocator:
